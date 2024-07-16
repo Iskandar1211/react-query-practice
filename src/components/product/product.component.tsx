@@ -1,10 +1,13 @@
 import React from 'react';
 import {IProduct} from "../../types";
+import styles from './product.component.module.scss'
 
-const ProductComponent = ({product}:{product:IProduct}) => {
+
+const ProductComponent = ({product}: { product: IProduct }) => {
     return (
-        <div>
-            <h1>{product.title}</h1>
+        <div className={styles.card}>
+            <img className={styles.card_img} src={product.image} alt={product.title}/>
+            <h4>{product.title}</h4>
         </div>
     );
 };

@@ -3,6 +3,7 @@ import {useQuery} from "react-query";
 import axios from "axios";
 import {IProduct} from "../../types";
 import ProductComponent from "../product/product.component";
+import  styles from './products.component.module.scss'
 
 export function ProductsComponent() {
     const getProducts = async () => {
@@ -19,7 +20,7 @@ export function ProductsComponent() {
     }
 
     return (
-        <div>
+        <div className={styles.container}>
             {products ? products.map(product => (
                     <ProductComponent
                         key={product.id}
