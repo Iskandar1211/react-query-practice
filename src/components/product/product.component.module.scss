@@ -13,3 +13,9 @@
   object-fit: contain;
   align-self: center;
 }
+
+.card_text {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}

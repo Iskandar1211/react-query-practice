@@ -1,5 +1,27 @@
 .container {
   display: flex;
-  gap: 10px;
+  gap: 20px;
   flex-wrap: wrap;
+  padding: 20px;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 400px;
+  padding: 15px;
+  &>input {
+    padding: 5px 10px;
+    outline: none;
+    border: 1px solid #ccc;
+    &:focus {
+      border: 1px solid rgba(0, 0, 0, 0.3);
+    }
+  }
+  &>button {
+    width: 120px;
+    height: 42px;
+    align-self: end;
+
+  }
 }
