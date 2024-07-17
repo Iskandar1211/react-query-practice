@@ -5,13 +5,12 @@ import ProductComponent from "../product/product.component";
 import styles from './products.component.module.scss'
 import {useForm} from "react-hook-form";
 import {useMutation, useQuery} from "@tanstack/react-query";
+import UseGetProducts from "../../shared/hooks/useGetProducts";
 
 export function ProductsComponent() {
     const [sort, setSort] = React.useState<'?sort=desc' | ''>('');
-    const getProducts = async (sort = '') => {
-        const {data} = await axios.get<IProduct[]>(`https://fakestoreapi.com/products${sort}`)
-        return data;
-    }
+
+    const {products,isLoading,isError} = UseGetProducts(sort)
 
     const {
         register,
@@ -22,10 +21,7 @@ export function ProductsComponent() {
         mode: 'onSubmit'
     });
 
-    const {data: products, isLoading, isError, refetch} = useQuery({
-        queryKey: ['products', sort],
-        queryFn: () => getProducts(sort)
-    });
+
 
     const mutation = useMutation({
         mutationFn: (newProduct: IProduct) => createProduct(newProduct),
@@ -66,7 +62,6 @@ export function ProductsComponent() {
                 <button type='submit'>Create Product</button>
             </form>
             <div className={styles.container}>
-
                 {products && products.length > 0 ? products.map(product => (
                         <ProductComponent
                             key={product.id}
