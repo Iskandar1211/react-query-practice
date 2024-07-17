@@ -3,15 +3,16 @@ import {IProduct} from "../../../types";
 import axios from "axios";
 import {Bounce, toast} from "react-toastify";
 
-const createProduct = (product: IProduct) => {
-    return axios.post(`${process.env.REACT_APP_POSTS_URL}`, product)
+const updateProduct = (product: IProduct) => {
+    return axios.put(`${process.env.REACT_APP_POSTS_URL}/${product.id}`, product)
 }
 
-const UseCreateProduct = () => {
+const UseUpdateProduct = () => {
+
     const {mutate, isPending, isSuccess, isError} = useMutation({
-        mutationFn: (newProduct: IProduct) => createProduct(newProduct),
+        mutationFn: (newProduct: IProduct) => updateProduct(newProduct),
         onSuccess: () => {
-            toast("Product successfully created", {
+            toast("Product successfully updated", {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -27,4 +28,4 @@ const UseCreateProduct = () => {
     return {mutate, isPending, isSuccess, isError}
 };
 
-export default UseCreateProduct;
+export default UseUpdateProduct;

@@ -8,14 +8,14 @@ const getProducts = async (sort = '') => {
     return data;
 }
 
-const UseGetProducts = ( {sort,isEnabled}:{sort:'?sort=desc' | '',isEnabled:boolean}) => {
-    const {data: products, isLoading, isError} = useQuery({
+const UseGetProducts = ({sort, isEnabled}: { sort: string, isEnabled: boolean }) => {
+    const {data: products, isLoading, isError, refetch} = useQuery({
         queryKey: ['products', sort],
         queryFn: () => getProducts(sort),
-        enabled:isEnabled
+        enabled: isEnabled
     });
 
-    return {products, isLoading, isError};
+    return {products, isLoading, isError, refetch};
 };
 
 export default UseGetProducts;

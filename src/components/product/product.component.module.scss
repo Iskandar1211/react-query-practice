@@ -19,3 +19,25 @@
   flex-direction: column;
   gap: 5px;
 }
+.card_buttons{
+  display: flex;
+  justify-content: flex-end;
+  gap: 5px;
+  margin-top: 10px;
+  &>button {
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  .deleteButton {
+    background-color: brown;
+    color: white;
+    border: none;
+    border-radius: 4px;
+  }
+  .updateButton {
+    background-color: lightgreen;
+    color: white;
+    border: none;
+    border-radius: 4px;
+  }
+}

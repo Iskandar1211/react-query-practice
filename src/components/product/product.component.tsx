@@ -1,17 +1,28 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {IProduct} from "../../types";
 import styles from './product.component.module.scss'
-
-import axios from "axios";
-import {useMutation} from "@tanstack/react-query";
 import UseDeleteProduct from "../../shared/hooks/mutations/useDeleteProduct";
+import useUpdateProduct from "../../shared/hooks/mutations/useUpdateProduct";
+import {QueryObserverResult, RefetchOptions} from "@tanstack/react-query";
 
 
-const ProductComponent = ({product}: {
-    product: IProduct,
-}) => {
+const ProductComponent = (
+    {
+        product,
+        setupdateProduct,
+        refetch
+    }: {
+        product: IProduct
+        setupdateProduct: React.Dispatch<React.SetStateAction<IProduct | null>>
+        refetch: (options?: (RefetchOptions | undefined)) => Promise<QueryObserverResult<IProduct[], Error>>
+    }) => {
 
-const {mutate} = UseDeleteProduct()
+    const {mutate, isSuccess} = UseDeleteProduct()
+
+    useEffect(() => {
+        if (!isSuccess) return
+        refetch()
+    }, [isSuccess])
 
     return (
         <div className={styles.card}>
@@ -23,7 +34,10 @@ const {mutate} = UseDeleteProduct()
                 <p>Cotegory <b>{product.category}</b></p>
                 <p>Rating {product.rating.rate}</p>
             </div>
-            <button onClick={() => mutate(product.id)}>Delete</button>
+            <div className={styles.card_buttons}>
+                <button className={styles.deleteButton} onClick={() => mutate(product.id)}>Delete</button>
+                <button className={styles.updateButton} onClick={() => setupdateProduct(product)}>Update</button>
+            </div>
         </div>
     );
 };

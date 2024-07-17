@@ -8,7 +8,6 @@ const deleteProduct = (id: string) => {
 }
 
 const UseDeleteProduct = () => {
-    const {invalidateQueries} = useQueryClient()
     const {mutate, isPending, isSuccess, isError} = useMutation({
         mutationFn: (id: string) => deleteProduct(id),
         onSuccess: () => {
@@ -23,9 +22,6 @@ const UseDeleteProduct = () => {
                 theme: "light",
                 transition: Bounce,
             });
-            invalidateQueries({
-                queryKey: ['products', ''],
-            })
         },
     })
     return {mutate, isPending, isSuccess, isError}
