@@ -8,7 +8,6 @@ import UseCreateProduct from "../../shared/hooks/mutations/useCreateProduct";
 
 export function ProductsComponent() {
     const [sort, setSort] = React.useState<'?sort=desc' | ''>('');
-
     const {products, isLoading, isError: isGetProductsError} = UseGetProducts({sort, isEnabled: true})
     const {mutate, isError, isSuccess, isPending} = UseCreateProduct()
 
@@ -30,7 +29,7 @@ export function ProductsComponent() {
 
 
     const onSubmit = (data: IProduct) => {
-        const id = products ? products.length + 1 : 1
+        const id = products ? String(products.length + 1) : ''
         mutate({...data, id, image: 'https://i.pravatar.cc'})
     }
 
@@ -47,7 +46,7 @@ export function ProductsComponent() {
                 <input type="text" {...register("category")} placeholder={'category'}/>
                 <input type="number" {...register("rating.rate")} placeholder={'rate'}/>
                 <input type="number" {...register("rating.count")} placeholder={'count'}/>
-                <button type='submit'>Create Product</button>
+                <button type='submit' disabled={isPending}>Create Product</button>
             </form>
             <div className={styles.container}>
                 {products && products.length > 0 ? products.map(product => (

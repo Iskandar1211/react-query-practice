@@ -3,19 +3,15 @@ import {IProduct} from "../../types";
 import styles from './product.component.module.scss'
 
 import axios from "axios";
-import {QueryObserverResult, RefetchOptions, RefetchQueryFilters, useMutation} from "@tanstack/react-query";
+import {useMutation} from "@tanstack/react-query";
+import UseDeleteProduct from "../../shared/hooks/mutations/useDeleteProduct";
 
 
 const ProductComponent = ({product}: {
     product: IProduct,
 }) => {
-    const deleteProduct = (id: number) => {
-        return axios.delete(`https://fakestoreapi.com/products/${id}`)
-    }
 
-    const mutation = useMutation({
-        mutationFn: (id: number) => deleteProduct(id)
-    })
+const {mutate} = UseDeleteProduct()
 
     return (
         <div className={styles.card}>
@@ -27,7 +23,7 @@ const ProductComponent = ({product}: {
                 <p>Cotegory <b>{product.category}</b></p>
                 <p>Rating {product.rating.rate}</p>
             </div>
-            <button onClick={() => mutation.mutate(product.id)}>Delete</button>
+            <button onClick={() => mutate(product.id)}>Delete</button>
         </div>
     );
 };

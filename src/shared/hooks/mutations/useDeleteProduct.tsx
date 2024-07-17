@@ -3,16 +3,16 @@ import {IProduct} from "../../../types";
 import axios from "axios";
 import {Bounce, toast} from "react-toastify";
 
-const createProduct = (product: IProduct) => {
-    return axios.post(`${process.env.REACT_APP_POSTS_URL}`, product)
+const deleteProduct = (id: string) => {
+    return axios.delete(`${process.env.REACT_APP_POSTS_URL}/${id}`)
 }
 
-const UseCreateProduct = () => {
+const UseDeleteProduct = () => {
     const {invalidateQueries} = useQueryClient()
     const {mutate, isPending, isSuccess, isError} = useMutation({
-        mutationFn: (newProduct: IProduct) => createProduct(newProduct),
+        mutationFn: (id: string) => deleteProduct(id),
         onSuccess: () => {
-            toast("Product successfully created", {
+            toast("Product successfully deleted", {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -31,4 +31,4 @@ const UseCreateProduct = () => {
     return {mutate, isPending, isSuccess, isError}
 };
 
-export default UseCreateProduct;
+export default UseDeleteProduct;
