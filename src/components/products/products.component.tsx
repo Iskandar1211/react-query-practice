@@ -1,10 +1,10 @@
 import React from 'react';
-import {useMutation, useQuery} from "react-query";
 import axios from "axios";
 import {IProduct} from "../../types";
 import ProductComponent from "../product/product.component";
 import styles from './products.component.module.scss'
 import {useForm} from "react-hook-form";
+import {useMutation, useQuery} from "@tanstack/react-query";
 
 export function ProductsComponent() {
     const [sort, setSort] = React.useState<'?sort=desc' | ''>('');
@@ -22,7 +22,10 @@ export function ProductsComponent() {
         mode: 'onSubmit'
     });
 
-    const {data: products, isLoading, isError, refetch} = useQuery(['products', sort], () => getProducts(sort));
+    const {data: products, isLoading, isError, refetch} = useQuery({
+        queryKey: ['products', sort],
+        queryFn: () => getProducts(sort)
+    });
 
     const mutation = useMutation({
         mutationFn: (newProduct: IProduct) => createProduct(newProduct),
@@ -68,7 +71,7 @@ export function ProductsComponent() {
                         <ProductComponent
                             key={product.id}
                             product={product}
-                            refetch={refetch}
+
                         />)) :
                     <div>Product in empty</div>}
             </div>
