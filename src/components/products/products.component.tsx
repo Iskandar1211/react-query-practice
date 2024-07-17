@@ -1,49 +1,37 @@
 import React from 'react';
-import axios from "axios";
 import {IProduct} from "../../types";
 import ProductComponent from "../product/product.component";
 import styles from './products.component.module.scss'
 import {useForm} from "react-hook-form";
-import {useMutation, useQuery} from "@tanstack/react-query";
-import UseGetProducts from "../../shared/hooks/useGetProducts";
+import UseGetProducts from "../../shared/hooks/queries/useGetProducts";
+import UseCreateProduct from "../../shared/hooks/mutations/useCreateProduct";
 
 export function ProductsComponent() {
     const [sort, setSort] = React.useState<'?sort=desc' | ''>('');
 
-    const {products,isLoading,isError} = UseGetProducts(sort)
+    const {products, isLoading, isError: isGetProductsError} = UseGetProducts({sort, isEnabled: true})
+    const {mutate, isError, isSuccess, isPending} = UseCreateProduct()
 
     const {
         register,
         handleSubmit,
-        watch,
         formState: {errors}
     } = useForm<IProduct>({
         mode: 'onSubmit'
     });
 
 
-
-    const mutation = useMutation({
-        mutationFn: (newProduct: IProduct) => createProduct(newProduct),
-        onSuccess: () => alert('Product Added'),
-    })
-
-    const createProduct = (product: IProduct) => {
-        return axios.post(`https://fakestoreapi.com/products`, product)
-    }
-
-
     if (isLoading) {
         return <div>Loading...</div>
     }
-    if (isError) {
+    if (isGetProductsError) {
         return <div>Error`</div>
     }
 
 
     const onSubmit = (data: IProduct) => {
         const id = products ? products.length + 1 : 1
-        mutation.mutate({...data, id, image: 'https://i.pravatar.cc'})
+        mutate({...data, id, image: 'https://i.pravatar.cc'})
     }
 
 

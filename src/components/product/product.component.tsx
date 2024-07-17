@@ -12,6 +12,7 @@ const ProductComponent = ({product}: {
     const deleteProduct = (id: number) => {
         return axios.delete(`https://fakestoreapi.com/products/${id}`)
     }
+
     const mutation = useMutation({
         mutationFn: (id: number) => deleteProduct(id)
     })
@@ -21,6 +22,7 @@ const ProductComponent = ({product}: {
             <img className={styles.card_img} src={product.image} alt={product.title}/>
             <div className={styles.card_text}>
                 <h4>{product.title}</h4>
+                <p>{product.description}</p>
                 <p>Price <b>{product.price}$</b></p>
                 <p>Cotegory <b>{product.category}</b></p>
                 <p>Rating {product.rating.rate}</p>
